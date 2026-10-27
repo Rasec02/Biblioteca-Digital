@@ -1,6 +1,6 @@
 "use strict";
 
-/* ============ 1. ESTADO ============ */
+ ============ 1. ESTADO ============ 
 let libros = [];
 let prestamos = [];
 let usuario = "";
@@ -21,7 +21,7 @@ const K = {
   direccion: "bib_direccion"
 };
 
-/* ============ 2. FECHAS ============ */
+ ============ 2. FECHAS ============ 
 function hoyISO() {
   const d = new Date();
   const y = d.getFullYear();
@@ -46,7 +46,7 @@ function diferenciaDias(f1, f2) {
   return Math.round((b - a) / 86400000);
 }
 
-/* ============ 3. DATOS INICIALES ============ */
+ ============ 3. DATOS INICIALES ============
 function datosIniciales() {
   const h = hoyISO();
   const librosIni = [
@@ -68,7 +68,7 @@ function datosIniciales() {
   return { libros: librosIni, prestamos: prestamosIni };
 }
 
-/* ============ 4. PERSISTENCIA ============ */
+ ============ 4. PERSISTENCIA ============ 
 function guardar() {
   localStorage.setItem(K.libros, JSON.stringify(libros));
   localStorage.setItem(K.prestamos, JSON.stringify(prestamos));
@@ -111,7 +111,7 @@ function siguienteId(prefijo, coleccion) {
   }
   return prefijo + (max + 1);
 }
-/* ============ 5. CONSULTAS ============ */
+ ============ 5. CONSULTAS ============
 function libroPorId(id) { return libros.find((l) => l.id === id) || null; }
 function prestamoActivo(idLibro) { return prestamos.find((p) => p.idLibro === idLibro && p.fechaDevolucion === null) || null; }
 function disponible(l) { return !l.coleccion && !prestamoActivo(l.id); }
@@ -122,7 +122,7 @@ function diasRetraso(p) {
 }
 function contarActivos() { return prestamos.filter((p) => p.fechaDevolucion === null).length; }
 
-/* ============ 6. FILTRAR / ORDENAR ============ */
+ ============ 6. FILTRAR / ORDENAR ============ 
 function generosDisponibles() {
   const s = new Set(libros.map((l) => l.genero));
   return [...s].sort((a, b) => a.localeCompare(b, "es"));
@@ -146,11 +146,11 @@ function filtrarYOrdenar() {
   return r;
 }
 
-/* ============ 7. REFERENCIAS DOM ============ */
+ ============ 7. REFERENCIAS DOM ============ 
 const $ = (s) => document.querySelector(s);
 const $$ = (s) => document.querySelectorAll(s);
 
-/* ============ 8. NAVEGACIÓN ============ */
+ ============ 8. NAVEGACIÓN ============ 
 function mostrarVista(nombre) {
   $$(".vista").forEach((v) => (v.hidden = true));
   const v = document.getElementById("vista-" + nombre);
@@ -168,19 +168,19 @@ function mostrarVista(nombre) {
   }
 }
 
-/* ============ 9. TEMA ============ */
+ ============ 9. TEMA ============ 
 function aplicarTema() {
   document.body.classList.toggle("tema-oscuro", tema === "oscuro");
   $("#btn-tema").textContent = tema === "oscuro" ? "☀️ Claro" : "🌙 Oscuro";
 }
 
-/* ============ 10. MENÚ ============ */
+ ============ 10. MENÚ ============ 
 function renderMenu() {
   $("#contador-prestamos").textContent = contarActivos();
   $("#saludo-usuario").textContent = usuario ? "Hola, " + usuario : "Hola";
 }
 
-/* ============ 11. SELECT GÉNERO ============ */
+ ============ 11. SELECT GÉNERO ============ 
 function renderSelectGenero() {
   const sel = $("#filtro-genero");
   const generos = generosDisponibles();
@@ -200,7 +200,7 @@ function renderSelectGenero() {
   sel.value = [...sel.options].some((o) => o.value === filtroGenero) ? filtroGenero : "todos";
 }
 
-/* ============ 12. RENDER CATÁLOGO ============ */
+ ============ 12. RENDER CATÁLOGO ============ 
 function crearTarjeta(libro) {
   const act = prestamoActivo(libro.id);
   const venc = act && vencido(act);
@@ -282,7 +282,7 @@ function renderCatalogo() {
   $("#contador-catalogo").textContent = `Mostrando ${lista.length} de ${libros.length} libros`;
 }
 
-/* ============ 13. RENDER GLOBAL ============ */
+ ============ 13. RENDER GLOBAL ============ 
 function renderTodo() {
   renderMenu();
   renderSelectGenero();
@@ -291,7 +291,7 @@ function renderTodo() {
   renderResumen();
 }
 
-/* ============ 14. EVENTOS BASE ============ */
+ ============ 14. EVENTOS BASE ============ 
 function eventosBase() {
   $$(".menu-enlace").forEach((b) => {
     b.addEventListener("click", () => mostrarVista(b.dataset.vista));
@@ -335,7 +335,7 @@ function eventosBase() {
   });
 }
 
-/* ============ 15. INICIO ============ */
+ ============ 15. INICIO ============ 
 function iniciar() {
   cargar();
   aplicarTema();
@@ -353,7 +353,7 @@ function iniciar() {
 
 document.addEventListener("DOMContentLoaded", iniciar);
 
-/* ============ 16. RENDER PRÉSTAMOS ============ */
+ ============ 16. RENDER PRÉSTAMOS ============ 
 function renderPrestamos() {
   const activos = prestamos.filter((p) => p.fechaDevolucion === null)
     .sort((a, b) => a.fechaLimite.localeCompare(b.fechaLimite));
@@ -424,7 +424,7 @@ function renderPrestamos() {
   }
 }
 
-/* ============ 17. RENDER RESUMEN ============ */
+ ============ 17. RENDER RESUMEN ============ 
 function renderResumen() {
   const total = libros.length;
   const disp = libros.filter((l) => disponible(l)).length;
@@ -491,7 +491,7 @@ function alCerrarModal() {
 }
 
 
-/* ============ 18. MODAL PRESTAR ============ */
+ ============ 18. MODAL PRESTAR ============ 
 let idPrestar = null;
 function abrirPrestar(id) {
   idPrestar = id;
@@ -512,7 +512,6 @@ function confirmarPrestar() {
   const l = libroPorId(idPrestar);
   if (!l) { cerrarPrestar(); return; }
 
-  // Validaciones que se muestran DENTRO del modal (como pide el PDF)
   if (l.coleccion) {
     $("#error-persona").textContent = "Los libros de colección no se prestan.";
     return;
@@ -526,23 +525,20 @@ function confirmarPrestar() {
     return;
   }
 
-  // Regla de negocio: máximo 3 préstamos activos.
-  // Este error SÍ se escribe en la página (Vista 2), no en el modal.
   if (contarActivos() >= 3) {
-    cerrarPrestar();                         // 1) cierra el modal
-    mostrarVista("prestamos");               // 2) cambia a Vista 2
-    const mp = $("#mensaje-prestamos");      // 3) escribe el mensaje DESPUÉS
+    cerrarPrestar();                         
+    mostrarVista("prestamos");               
+    const mp = $("#mensaje-prestamos");      
     if (mp) {
       mp.textContent = "No puedes tener más de 3 préstamos activos a la vez.";
       mp.className = "mensaje error";
-    } else {
-      // Salvavidas por si el <p> no existiera en el HTML
+    } else{
       console.warn("Falta #mensaje-prestamos en el HTML");
     }
-    return;                                  // 4) NO se crea el préstamo
+    return;                               
   }
 
-  // Crear el préstamo
+ 
   const h = hoyISO();
   const nuevo = {
     id: siguienteId("P", prestamos),
@@ -559,7 +555,7 @@ function confirmarPrestar() {
   mostrarVista("catalogo");
 }
 
-/* ============ 19. MODAL ELIMINAR ============ */
+ ============ 19. MODAL ELIMINAR ============ 
 let idEliminar = null;
 function abrirEliminar(id) {
   idEliminar = id;
@@ -597,7 +593,7 @@ function alertaCatalogo(texto, tipo) {
   setTimeout(() => { if (p.isConnected) p.remove(); }, 4000);
 }
 
-/* ============ 20. DEVOLVER ============ */
+ ============ 20. DEVOLVER ============ 
 function devolver(idLibro) {
   const a = prestamoActivo(idLibro);
   if (!a) return;
@@ -608,7 +604,7 @@ function devolver(idLibro) {
   alertaCatalogo(r > 0 ? `Devuelto con ${r} día(s) de retraso.` : "Devuelto a tiempo.", "exito");
 }
 
-/* ============ 21. FORMULARIO ============ */
+ ============ 21. FORMULARIO ============
 function limpiarForm() {
   editandoId = null;
   $("#form-libro").reset();
@@ -664,9 +660,9 @@ function iniciarEdicion(id) {
   mostrarVista("formulario");
 }
 
-/* ============ 22. EVENTOS 2 ============ */
+ ============ 22. EVENTOS 2 ============ 
 function eventos2() {
-  // Delegación en tarjetas
+ 
   $("#contenedor-libros").addEventListener("click", (e) => {
     const b = e.target.closest("button[data-accion]");
     if (!b) return;
@@ -678,20 +674,17 @@ function eventos2() {
     else if (acc === "eliminar") abrirEliminar(id);
   });
 
-  // Delegación en lista préstamos
   $("#lista-prestamos").addEventListener("click", (e) => {
     const b = e.target.closest("button[data-accion='devolver']");
     if (!b) return;
     devolver(b.dataset.id);
   });
 
-  // Modales
   $("#btn-confirmar-prestar").addEventListener("click", confirmarPrestar);
   $("#btn-cancelar-prestar").addEventListener("click", cerrarPrestar);
   $("#btn-confirmar-eliminar").addEventListener("click", confirmarEliminar);
   $("#btn-cancelar-eliminar").addEventListener("click", cerrarEliminar);
 
-  // Formulario
   $("#form-libro").addEventListener("submit", (e) => {
     e.preventDefault();
     const d = leerForm();
@@ -733,14 +726,12 @@ function eventos2() {
     $("#restantes-comentario").textContent = 120 - e.target.value.length;
   });
 
-  // Usuario
   $("#campo-usuario").addEventListener("input", (e) => {
     usuario = e.target.value.trim();
     guardar();
     renderMenu();
   });
 
-  // Restablecer con modal
    $("#btn-restablecer").addEventListener("click", () => {
     $("#modal-restablecer").hidden = false;
     alAbrirModal();
@@ -765,7 +756,6 @@ function eventos2() {
     $("#buscador").focus();
   });
 
-  // Escape
   document.addEventListener("keydown", (e) => {
     if (e.key !== "Escape") return;
     if (!$("#modal-prestar").hidden) { cerrarPrestar(); return; }
