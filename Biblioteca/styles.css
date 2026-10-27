@@ -1,0 +1,331 @@
+/* ===== 1. RESET Y VARIABLES ===== */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --fondo: #f5f7f6;
+  --superficie: #ffffff;
+  --texto: #14201b;
+  --texto-suave: #5a6b63;
+  --primario: #1f7a4d;
+  --primario-hover: #16603c;
+  --borde: #d7ded9;
+  --peligro: #b3261e;
+  --peligro-hover: #8c1d18;
+  --aviso: #8a5a00;
+  --aviso-fondo: #fff4d6;
+  --vencido: #b3261e;
+  --vencido-fondo: #fde7e6;
+  --sombra: rgba(20, 32, 27, 0.08);
+  --radio: 12px;
+  --trans: 0.25s ease;
+}
+
+body.tema-oscuro {
+  --fondo: #0f1412;
+  --superficie: #1a211e;
+  --texto: #eef2f0;
+  --texto-suave: #a7b5ae;
+  --primario: #4cc38a;
+  --primario-hover: #3aa876;
+  --borde: #2b3530;
+  --peligro: #ff6b60;
+  --peligro-hover: #ff8a80;
+  --aviso: #ffd479;
+  --aviso-fondo: #3a2e10;
+  --vencido: #ff8a80;
+  --vencido-fondo: #3a1a1a;
+  --sombra: rgba(0, 0, 0, 0.4);
+}
+
+/* ===== 2. BASE ===== */
+body {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  background: var(--fondo);
+  color: var(--texto);
+  line-height: 1.5;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: background var(--trans), color var(--trans);
+}
+
+h1 { font-size: 1.3rem; }
+h2 { font-size: 1.5rem; margin-bottom: 1rem; }
+h3 { font-size: 1.1rem; margin: 1.25rem 0 0.5rem; }
+
+button, input, select, textarea { font: inherit; color: inherit; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  padding: 0.5rem 0.9rem;
+  border: 1px solid var(--borde);
+  background: var(--superficie);
+  color: var(--texto);
+  border-radius: var(--radio);
+  cursor: pointer;
+  transition: background var(--trans), transform var(--trans), border-color var(--trans);
+}
+.btn:hover { border-color: var(--primario); }
+.btn:active { transform: scale(0.97); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.btn-primario { background: var(--primario); color: #fff; border-color: var(--primario); }
+.btn-primario:hover { background: var(--primario-hover); }
+.btn-peligro { background: var(--peligro); color: #fff; border-color: var(--peligro); }
+.btn-peligro:hover { background: var(--peligro-hover); }
+
+/* ===== 3. HEADER Y MENÚ ===== */
+.cabecera {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 0.75rem; padding: 1rem 1.25rem;
+  background: var(--superficie);
+  border-bottom: 1px solid var(--borde);
+  box-shadow: 0 2px 6px var(--sombra);
+}
+.logo { color: var(--primario); }
+.menu { display: flex; flex-wrap: wrap; gap: 0.25rem; }
+.menu-enlace {
+  padding: 0.45rem 0.8rem;
+  border: none; background: transparent; color: var(--texto-suave);
+  border-radius: var(--radio); cursor: pointer;
+  transition: background var(--trans), color var(--trans);
+}
+.menu-enlace:hover { background: var(--fondo); color: var(--texto); }
+.menu-enlace.activo { background: var(--primario); color: #fff; }
+.cabecera-acciones { display: flex; align-items: center; gap: 0.75rem; }
+.saludo { color: var(--texto-suave); font-size: 0.9rem; }
+
+/* ===== 4. LAYOUT Y VISTAS ===== */
+main { flex: 1; width: 100%; max-width: 1100px; margin: 0 auto; padding: 1.25rem; }
+.vista { animation: aparecer 0.4s ease-out; }
+.vista[hidden] { display: none; }
+@keyframes aparecer {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== 5. CONTROLES ===== */
+.controles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: var(--superficie);
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  align-items: flex-end; /* alinea etiquetas/selects por abajo */
+  overflow: hidden
+}
+
+.control {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 220px;   /* antes 150px: más espacio para que no se pisen */
+  flex: 1 1 220px;
+  overflow: hidden;
+}
+
+.control label,
+.etiqueta-control {
+  font-size: 0.85rem;
+  color: var(--texto-suave);
+  line-height: 1.2;
+}
+
+.control input,
+.control select {
+  width: 100%;
+  padding: 0.45rem 0.6rem;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  background: var(--fondo);
+  color: var(--texto);
+}
+
+.control input:focus,
+.control select:focus,
+.formulario input:focus,
+.formulario select:focus,
+.formulario textarea:focus {
+  outline: 2px solid var(--primario);
+  outline-offset: 1px;
+}
+
+/* Botones de estado: que no se aplasten y tengan altura de input */
+.botones-filtro {
+  display: flex;
+  gap: 0.25rem;
+  width: 100%;
+  min-width: 0;         
+  flex-wrap: nowrap;
+}
+
+.btn-filtro {
+flex: 1 1 auto;          
+  min-width: max-content;  
+  padding: 0.45rem 0.6rem; 
+  border: 1px solid var(--borde);
+  background: var(--fondo);
+  color: var(--texto);
+  border-radius: var(--radio);
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: 0.85rem;
+  transition: background var(--trans), color var(--trans);
+}
+
+.btn-filtro.activo {
+  background: var(--primario);
+  color: #fff;
+  border-color: var(--primario);
+}
+
+.contador {
+  margin-bottom: 0.75rem;
+  color: var(--texto-suave);
+  font-size: 0.9rem;
+}
+/* ===== 6. TARJETAS ===== */
+.grid-libros { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+.tarjeta {
+  display: flex; flex-direction: column; gap: 0.5rem;
+  padding: 1rem; background: var(--superficie);
+  border: 1px solid var(--borde); border-radius: var(--radio);
+  box-shadow: 0 1px 4px var(--sombra);
+  transition: transform var(--trans), box-shadow var(--trans), border-color var(--trans);
+}
+.tarjeta:hover { transform: translateY(-3px); box-shadow: 0 8px 18px var(--sombra); border-color: var(--primario); }
+.tarjeta-prestada { border-left: 5px solid var(--aviso); background: var(--aviso-fondo); }
+.tarjeta-coleccion { border-left: 5px solid var(--primario); }
+.tarjeta-titulo { font-size: 1.05rem; font-weight: 700; }
+.tarjeta-meta { font-size: 0.9rem; color: var(--texto-suave); }
+.tarjeta-estado {
+  align-self: flex-start; padding: 0.15rem 0.6rem;
+  border-radius: 999px; font-size: 0.8rem; font-weight: 600;
+  background: var(--fondo); border: 1px solid var(--borde);
+}
+.etiqueta-vencido {
+  align-self: flex-start; padding: 0.15rem 0.6rem;
+  border-radius: 999px; font-size: 0.8rem; font-weight: 600;
+  background: var(--vencido-fondo); color: var(--vencido); border: 1px solid var(--vencido);
+}
+.tarjeta-prestamo-info { font-size: 0.85rem; color: var(--aviso); }
+.tarjeta-acciones { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.4rem; }
+.tarjeta-acciones .btn { flex: 1 1 auto; padding: 0.4rem 0.6rem; font-size: 0.85rem; }
+
+/* ===== 7. LISTAS ===== */
+.lista { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+.item-prestamo, .item-historial, .item-genero {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 0.5rem; padding: 0.75rem 1rem;
+  background: var(--superficie); border: 1px solid var(--borde); border-radius: var(--radio);
+}
+.item-prestamo-vencido { border-left: 5px solid var(--vencido); background: var(--vencido-fondo); }
+.item-info { display: flex; flex-direction: column; gap: 0.15rem; font-size: 0.9rem; }
+.item-info strong { font-size: 1rem; }
+.mensaje, .mensaje-vacio {
+  padding: 0.75rem 1rem; border-radius: var(--radio);
+  background: var(--superficie); border: 1px dashed var(--borde);
+  color: var(--texto-suave); margin-bottom: 1rem;
+}
+.mensaje.exito { border-color: var(--primario); color: var(--primario); }
+.mensaje.error { border-color: var(--peligro); color: var(--peligro); }
+
+/* ===== 8. FORMULARIO ===== */
+.formulario {
+  display: flex; flex-direction: column; gap: 0.9rem;
+  padding: 1.25rem; background: var(--superficie);
+  border: 1px solid var(--borde); border-radius: var(--radio); max-width: 600px;
+}
+.campo { display: flex; flex-direction: column; gap: 0.25rem; }
+.campo label { font-size: 0.9rem; font-weight: 600; }
+.campo input, .campo select, .campo textarea {
+  padding: 0.5rem 0.65rem; border: 1px solid var(--borde);
+  border-radius: var(--radio); background: var(--fondo); color: var(--texto);
+}
+.campo textarea { resize: vertical; }
+.campo-checkbox { display: flex; align-items: center; gap: 0.5rem; }
+.campo-checkbox label { font-weight: normal; font-size: 0.9rem; }
+.contador-caracteres { font-size: 0.8rem; color: var(--texto-suave); }
+.error-campo { font-size: 0.8rem; color: var(--peligro); min-height: 1em; }
+.acciones-formulario { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+
+/* ===== 9. RESUMEN ===== */
+.resumen-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; margin-bottom: 1rem; }
+.resumen-item {
+  display: flex; flex-direction: column; gap: 0.25rem;
+  padding: 1rem; background: var(--superficie);
+  border: 1px solid var(--borde); border-radius: var(--radio);
+  font-size: 0.9rem; color: var(--texto-suave);
+}
+.resumen-numero { font-size: 1.6rem; font-weight: 700; color: var(--primario); }
+.ajustes { display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-end; }
+.ajustes .campo { flex: 1 1 220px; }
+
+/* ===== 10. FOOTER ===== */
+.pie {
+  padding: 1rem 1.25rem; text-align: center; font-size: 0.85rem;
+  color: var(--texto-suave); border-top: 1px solid var(--borde); background: var(--superficie);
+}
+
+/* ===== 11. MODALES ===== */
+.modal {
+  position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
+  padding: 1rem; background: rgba(0, 0, 0, 0.55); z-index: 100;
+  animation: aparecer 0.2s ease-out;
+}
+.modal[hidden] { display: none; }
+.modal-contenido {
+  width: 100%; max-width: 420px; padding: 1.25rem;
+  background: var(--superficie); color: var(--texto);
+  border-radius: var(--radio); box-shadow: 0 12px 32px var(--sombra);
+  display: flex; flex-direction: column; gap: 0.75rem;
+}
+.modal-libro { font-weight: 600; color: var(--primario); }
+.acciones-modal { display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 0.5rem; }
+
+/* ===== 12. RESPONSIVE ===== */
+@media (min-width: 768px) {
+  h1 { font-size: 1.6rem; }
+  .grid-libros { grid-template-columns: repeat(2, 1fr); }
+  .resumen-grid { grid-template-columns: repeat(4, 1fr); }
+}
+@media (min-width: 1024px) {
+  .grid-libros { grid-template-columns: repeat(3, 1fr); }
+}
+@media (min-width: 600px) and (max-width: 900px) {
+  .control { flex: 1 1 45%; }
+}
+@media (max-width: 480px) {
+  .botones-filtro {
+    flex-wrap: wrap;   /* si no caben 3 en una línea, bajan */
+  }
+  .btn-filtro {
+    flex: 1 1 45%;
+    white-space: normal;
+  }
+}
+/* ===== 13. MENSAJES DEL CATÁLOGO ===== */
+.mensajes-catalogo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  min-height: 0; /* no ocupa espacio si está vacío */
+}
+.mensajes-catalogo:empty {
+  display: none;
+}
+.mensajes-catalogo .mensaje {
+  margin-bottom: 0; /* el gap del flex ya separa */
+}
+/* ===== 14. ACCESIBILIDAD DE MODALES ===== */
+.modal-contenido button:focus-visible,
+.modal-contenido input:focus-visible {
+  outline: 2px solid var(--primario);
+  outline-offset: 2px;
+}
+body.modal-abierto {
+  overflow: hidden; /* evita scroll del fondo mientras hay modal */
+}

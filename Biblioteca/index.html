@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Biblioteca Digital — Catálogo y préstamos</title>
+  <meta name="description" content="Gestiona un catálogo de libros, préstamos y devoluciones con resumen y ajustes.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://tudominio.com/">
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+
+  <header class="cabecera">
+    <h1 class="logo">Biblioteca Digital</h1>
+
+    <nav class="menu" aria-label="Navegación principal">
+      <button type="button" class="menu-enlace activo" data-vista="catalogo">Catálogo</button>
+      <button type="button" class="menu-enlace" data-vista="prestamos">
+        Mis préstamos (<span id="contador-prestamos">0</span>)
+      </button>
+      <button type="button" class="menu-enlace" data-vista="formulario">Agregar libro</button>
+      <button type="button" class="menu-enlace" data-vista="resumen">Resumen</button>
+    </nav>
+
+    <div class="cabecera-acciones">
+      <span id="saludo-usuario" class="saludo">Hola</span>
+      <button type="button" id="btn-tema" class="btn" aria-label="Cambiar tema">🌙 Oscuro</button>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- ============ VISTA CATÁLOGO ============ -->
+    <section id="vista-catalogo" class="vista">
+      <h2>Catálogo de libros</h2>
+
+      <div class="controles">
+        <div class="control">
+          <label for="buscador">Buscar por título o autor</label>
+          <input type="search" id="buscador" placeholder="Escribe para buscar...">
+        </div>
+
+        <div class="control">
+          <span class="etiqueta-control">Estado</span>
+          <div class="botones-filtro" role="group" aria-label="Filtrar por estado">
+            <button type="button" class="btn-filtro activo" data-filtro="todos">Todos</button>
+            <button type="button" class="btn-filtro" data-filtro="disponibles">Disponibles</button>
+            <button type="button" class="btn-filtro" data-filtro="prestados">Prestados</button>
+          </div>
+        </div>
+
+        <div class="control">
+          <label for="filtro-genero">Género</label>
+          <select id="filtro-genero">
+            <option value="todos">Todos los géneros</option>
+          </select>
+        </div>
+
+        <div class="control">
+          <label for="orden-catalogo">Ordenar por</label>
+          <select id="orden-catalogo">
+            <option value="titulo">Título</option>
+            <option value="autor">Autor</option>
+            <option value="anio">Año</option>
+          </select>
+        </div>
+
+        <div class="control">
+          <button type="button" id="btn-direccion" class="btn">Ascendente ↑</button>
+        </div>
+      </div>
+
+      <p id="contador-catalogo" class="contador">Mostrando 0 de 0 libros</p>
+
+      <div id="mensajes-catalogo" class="mensajes-catalogo" role="status" aria-live="polite"></div>
+
+      <div id="contenedor-libros" class="grid-libros"></div>
+    </section>
+
+    <!-- ============ VISTA PRÉSTAMOS ============ -->
+    <section id="vista-prestamos" class="vista" hidden>
+      <h2>Mis préstamos</h2>
+
+      <p id="mensaje-prestamos" class="mensaje" role="status"></p>
+
+      <h3>Préstamos activos</h3>
+      <ul id="lista-prestamos" class="lista"></ul>
+      <p id="sin-prestamos" class="mensaje-vacio" hidden>No hay préstamos activos.</p>
+
+      <h3>Historial</h3>
+      <ul id="lista-historial" class="lista"></ul>
+      <p id="sin-historial" class="mensaje-vacio" hidden>No hay préstamos devueltos todavía.</p>
+    </section>
+
+    <!-- ============ VISTA FORMULARIO ============ -->
+    <section id="vista-formulario" class="vista" hidden>
+      <h2 id="titulo-formulario">Agregar libro</h2>
+
+      <form id="form-libro" class="formulario" novalidate>
+        <div class="campo">
+          <label for="campo-titulo">Título</label>
+          <input type="text" id="campo-titulo" maxlength="60">
+          <p class="error-campo" id="error-titulo"></p>
+        </div>
+
+        <div class="campo">
+          <label for="campo-autor">Autor</label>
+          <input type="text" id="campo-autor">
+          <p class="error-campo" id="error-autor"></p>
+        </div>
+
+        <div class="campo">
+          <label for="campo-anio">Año</label>
+          <input type="number" id="campo-anio" min="1000" max="2026">
+          <p class="error-campo" id="error-anio"></p>
+        </div>
+
+        <div class="campo">
+          <label for="campo-genero">Género</label>
+          <select id="campo-genero">
+            <option value="">Selecciona un género</option>
+            <option value="novela">Novela</option>
+            <option value="ciencia">Ciencia</option>
+            <option value="historia">Historia</option>
+            <option value="poesia">Poesía</option>
+            <option value="infantil">Infantil</option>
+            <option value="ensayo">Ensayo</option>
+          </select>
+          <p class="error-campo" id="error-genero"></p>
+        </div>
+
+        <div class="campo">
+          <label for="campo-comentario">Comentario</label>
+          <textarea id="campo-comentario" maxlength="120" rows="3"></textarea>
+          <p class="contador-caracteres"><span id="restantes-comentario">120</span> caracteres restantes</p>
+        </div>
+
+        <div class="campo-checkbox">
+          <input type="checkbox" id="campo-coleccion">
+          <label for="campo-coleccion">Ejemplar de colección (no se presta)</label>
+        </div>
+
+        <div class="acciones-formulario">
+          <button type="submit" id="btn-enviar-formulario" class="btn btn-primario">Agregar libro</button>
+          <button type="button" id="btn-cancelar-edicion" class="btn" hidden>Cancelar</button>
+        </div>
+
+        <p id="mensaje-formulario" class="mensaje" role="status"></p>
+      </form>
+    </section>
+
+    <!-- ============ VISTA RESUMEN ============ -->
+    <section id="vista-resumen" class="vista" hidden>
+      <h2>Resumen y ajustes</h2>
+
+      <div class="resumen-grid">
+        <div class="resumen-item"><span class="resumen-numero" id="resumen-total">0</span><span>Total</span></div>
+        <div class="resumen-item"><span class="resumen-numero" id="resumen-disponibles">0</span><span>Disponibles</span></div>
+        <div class="resumen-item"><span class="resumen-numero" id="resumen-prestados">0</span><span>Prestados</span></div>
+        <div class="resumen-item"><span class="resumen-numero" id="resumen-vencidos">0</span><span>Vencidos</span></div>
+      </div>
+
+      <h3>Libros por género</h3>
+      <ul id="resumen-generos" class="lista"></ul>
+
+      <h3>Ajustes</h3>
+      <div class="ajustes">
+        <div class="campo">
+          <label for="campo-usuario">Tu nombre</label>
+          <input type="text" id="campo-usuario" placeholder="Escribe tu nombre">
+        </div>
+        <button type="button" id="btn-restablecer" class="btn btn-peligro">Restablecer biblioteca</button>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="pie">
+    <p>&copy; 2026 Biblioteca Digital — Programación Web</p>
+  </footer>
+
+  <!-- ============ MODAL PRESTAR ============ -->
+   <div id="modal-prestar" class="modal" role="dialog" aria-modal="true" aria-labelledby="titulo-modal-prestar" hidden>
+    <div class="modal-contenido">
+      <h3 id="titulo-modal-prestar">Prestar libro</h3>
+      <p id="modal-prestar-libro" class="modal-libro"></p>
+      <div class="campo">
+        <label for="campo-persona">¿A quién se presta?</label>
+        <input type="text" id="campo-persona" maxlength="40">
+        <p class="error-campo" id="error-persona"></p>
+      </div>
+      <div class="acciones-modal">
+        <button type="button" id="btn-confirmar-prestar" class="btn btn-primario">Prestar</button>
+        <button type="button" id="btn-cancelar-prestar" class="btn">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ MODAL ELIMINAR ============ -->
+    <div id="modal-eliminar" class="modal" role="dialog" aria-modal="true" aria-labelledby="titulo-modal-eliminar" hidden>
+    <div class="modal-contenido">
+      <h3 id="titulo-modal-eliminar">Eliminar libro</h3>
+      <p id="modal-eliminar-texto"></p>
+      <div class="acciones-modal">
+        <button type="button" id="btn-confirmar-eliminar" class="btn btn-peligro">Eliminar</button>
+        <button type="button" id="btn-cancelar-eliminar" class="btn">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ MODAL RESTABLECER ============ -->
+    <div id="modal-restablecer" class="modal" role="dialog" aria-modal="true" aria-labelledby="titulo-modal-restablecer" hidden>
+    <div class="modal-contenido">
+      <h3 id="titulo-modal-restablecer">Restablecer biblioteca</h3>
+      <p>Se borrarán todos los cambios y se volverá a los datos iniciales. Esta acción no se puede deshacer.</p>
+      <div class="acciones-modal">
+        <button type="button" id="btn-confirmar-restablecer" class="btn btn-peligro">Restablecer</button>
+        <button type="button" id="btn-cancelar-restablecer" class="btn">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+
+</body>
+</html>
