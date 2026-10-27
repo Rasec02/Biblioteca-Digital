@@ -1,4 +1,4 @@
-/* ===== 1. RESET Y VARIABLES ===== */
+ ===== 1. RESET Y VARIABLES ===== 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
@@ -37,7 +37,7 @@ body.tema-oscuro {
   --sombra: rgba(0, 0, 0, 0.4);
 }
 
-/* ===== 2. BASE ===== */
+ ===== 2. BASE ===== 
 body {
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   background: var(--fondo);
@@ -73,7 +73,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .btn-peligro { background: var(--peligro); color: #fff; border-color: var(--peligro); }
 .btn-peligro:hover { background: var(--peligro-hover); }
 
-/* ===== 3. HEADER Y MENÚ ===== */
+ ===== 3. HEADER Y MENÚ ===== 
 .cabecera {
   display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
   gap: 0.75rem; padding: 1rem 1.25rem;
@@ -94,7 +94,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .cabecera-acciones { display: flex; align-items: center; gap: 0.75rem; }
 .saludo { color: var(--texto-suave); font-size: 0.9rem; }
 
-/* ===== 4. LAYOUT Y VISTAS ===== */
+ ===== 4. LAYOUT Y VISTAS ===== 
 main { flex: 1; width: 100%; max-width: 1100px; margin: 0 auto; padding: 1.25rem; }
 .vista { animation: aparecer 0.4s ease-out; }
 .vista[hidden] { display: none; }
@@ -103,7 +103,7 @@ main { flex: 1; width: 100%; max-width: 1100px; margin: 0 auto; padding: 1.25rem
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ===== 5. CONTROLES ===== */
+ ===== 5. CONTROLES ===== 
 .controles {
   display: flex;
   flex-wrap: wrap;
@@ -113,7 +113,7 @@ main { flex: 1; width: 100%; max-width: 1100px; margin: 0 auto; padding: 1.25rem
   background: var(--superficie);
   border: 1px solid var(--borde);
   border-radius: var(--radio);
-  align-items: flex-end; /* alinea etiquetas/selects por abajo */
+  align-items: flex-end; 
   overflow: hidden
 }
 
@@ -121,7 +121,7 @@ main { flex: 1; width: 100%; max-width: 1100px; margin: 0 auto; padding: 1.25rem
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
-  min-width: 220px;   /* antes 150px: más espacio para que no se pisen */
+  min-width: 220px;   
   flex: 1 1 220px;
   overflow: hidden;
 }
@@ -152,7 +152,7 @@ main { flex: 1; width: 100%; max-width: 1100px; margin: 0 auto; padding: 1.25rem
   outline-offset: 1px;
 }
 
-/* Botones de estado: que no se aplasten y tengan altura de input */
+
 .botones-filtro {
   display: flex;
   gap: 0.25rem;
@@ -186,7 +186,7 @@ flex: 1 1 auto;
   color: var(--texto-suave);
   font-size: 0.9rem;
 }
-/* ===== 6. TARJETAS ===== */
+ ===== 6. TARJETAS ===== 
 .grid-libros { display: grid; grid-template-columns: 1fr; gap: 1rem; }
 .tarjeta {
   display: flex; flex-direction: column; gap: 0.5rem;
@@ -214,7 +214,7 @@ flex: 1 1 auto;
 .tarjeta-acciones { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.4rem; }
 .tarjeta-acciones .btn { flex: 1 1 auto; padding: 0.4rem 0.6rem; font-size: 0.85rem; }
 
-/* ===== 7. LISTAS ===== */
+ ===== 7. LISTAS ===== 
 .lista { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
 .item-prestamo, .item-historial, .item-genero {
   display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
@@ -232,7 +232,7 @@ flex: 1 1 auto;
 .mensaje.exito { border-color: var(--primario); color: var(--primario); }
 .mensaje.error { border-color: var(--peligro); color: var(--peligro); }
 
-/* ===== 8. FORMULARIO ===== */
+ ===== 8. FORMULARIO ===== 
 .formulario {
   display: flex; flex-direction: column; gap: 0.9rem;
   padding: 1.25rem; background: var(--superficie);
@@ -251,7 +251,7 @@ flex: 1 1 auto;
 .error-campo { font-size: 0.8rem; color: var(--peligro); min-height: 1em; }
 .acciones-formulario { display: flex; gap: 0.5rem; flex-wrap: wrap; }
 
-/* ===== 9. RESUMEN ===== */
+ ===== 9. RESUMEN ===== 
 .resumen-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem; margin-bottom: 1rem; }
 .resumen-item {
   display: flex; flex-direction: column; gap: 0.25rem;
@@ -263,13 +263,13 @@ flex: 1 1 auto;
 .ajustes { display: flex; flex-wrap: wrap; gap: 1rem; align-items: flex-end; }
 .ajustes .campo { flex: 1 1 220px; }
 
-/* ===== 10. FOOTER ===== */
+ ===== 10. FOOTER ===== 
 .pie {
   padding: 1rem 1.25rem; text-align: center; font-size: 0.85rem;
   color: var(--texto-suave); border-top: 1px solid var(--borde); background: var(--superficie);
 }
 
-/* ===== 11. MODALES ===== */
+ ===== 11. MODALES ===== 
 .modal {
   position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
   padding: 1rem; background: rgba(0, 0, 0, 0.55); z-index: 100;
@@ -285,7 +285,7 @@ flex: 1 1 auto;
 .modal-libro { font-weight: 600; color: var(--primario); }
 .acciones-modal { display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 0.5rem; }
 
-/* ===== 12. RESPONSIVE ===== */
+ ===== 12. RESPONSIVE ===== 
 @media (min-width: 768px) {
   h1 { font-size: 1.6rem; }
   .grid-libros { grid-template-columns: repeat(2, 1fr); }
@@ -299,33 +299,33 @@ flex: 1 1 auto;
 }
 @media (max-width: 480px) {
   .botones-filtro {
-    flex-wrap: wrap;   /* si no caben 3 en una línea, bajan */
+    flex-wrap: wrap;   
   }
   .btn-filtro {
     flex: 1 1 45%;
     white-space: normal;
   }
 }
-/* ===== 13. MENSAJES DEL CATÁLOGO ===== */
+ ===== 13. MENSAJES DEL CATÁLOGO ===== 
 .mensajes-catalogo {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   margin-bottom: 1rem;
-  min-height: 0; /* no ocupa espacio si está vacío */
+  min-height: 0; 
 }
 .mensajes-catalogo:empty {
   display: none;
 }
 .mensajes-catalogo .mensaje {
-  margin-bottom: 0; /* el gap del flex ya separa */
+  margin-bottom: 0; 
 }
-/* ===== 14. ACCESIBILIDAD DE MODALES ===== */
+ ===== 14. ACCESIBILIDAD DE MODALES ===== 
 .modal-contenido button:focus-visible,
 .modal-contenido input:focus-visible {
   outline: 2px solid var(--primario);
   outline-offset: 2px;
 }
 body.modal-abierto {
-  overflow: hidden; /* evita scroll del fondo mientras hay modal */
+  overflow: hidden; 
 }
